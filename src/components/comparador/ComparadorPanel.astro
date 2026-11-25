@@ -1,0 +1,149 @@
+---
+import CompareIcon from "../../assets/icons/compare.svg";
+import CloseIcon from "../../assets/icons/close.svg";
+---
+
+<!-- Aviso accesible al intentar agregar un 4.º espacio -->
+<div
+  id="comparador-aviso"
+  role="alert"
+  aria-live="assertive"
+  class="fixed bottom-24 left-1/2 z-50 hidden w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-xl border border-orange-300 bg-orange-50 px-4 py-3 text-sm font-semibold text-accent-terracota shadow-lg"
+>
+  Solo puedes comparar hasta 3 espacios a la vez. Quita uno para agregar otro.
+</div>
+
+<!-- Barra flotante inferior cuando hay espacios seleccionados -->
+<aside
+  id="comparador-bar"
+  aria-label="Espacios seleccionados para comparar"
+  class="fixed bottom-4 left-1/2 z-40 hidden w-[calc(100%-1.5rem)] max-w-4xl -translate-x-1/2 rounded-2xl border border-emerald-900/20 bg-primary-900 p-3.5 text-white shadow-xl sm:px-5"
+>
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-emerald-200">
+        <CompareIcon class="h-4 w-4" aria-hidden="true" />
+        Comparador (<span id="comparador-bar-count">0</span>/3)
+      </span>
+      <div id="comparador-chips" class="flex flex-wrap gap-1.5"></div>
+    </div>
+
+    <div class="flex shrink-0 items-center gap-2">
+      <button
+        type="button"
+        data-comparador-limpiar
+        class="rounded-xl border border-white/25 px-3 py-2 text-xs font-semibold text-emerald-100 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+      >
+        Limpiar
+      </button>
+      <button
+        type="button"
+        data-comparador-abrir
+        class="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-xs font-bold text-primary-900 transition-colors hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+      >
+        Ver comparación
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- Modal comparativo -->
+<div
+  id="comparador-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="comparador-modal-titulo"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs"
+>
+  <div class="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
+    <!-- Cabecera del modal -->
+    <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+      <div class="flex items-center gap-2.5">
+        <span
+          class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-primary-700"
+          aria-hidden="true"
+        >
+          <CompareIcon class="h-5 w-5" />
+        </span>
+        <div>
+          <h2
+            id="comparador-modal-titulo"
+            class="text-lg font-bold text-primary-900"
+          >
+            Comparador de espacios
+          </h2>
+          <p class="text-xs text-neutral-muted">
+            Contrasta hasta 3 espacios urbanos lado a lado
+          </p>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        data-comparador-cerrar
+        aria-label="Cerrar comparador"
+        class="rounded-lg p-2 text-neutral-muted transition-colors hover:bg-slate-100 hover:text-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+      >
+        <CloseIcon class="h-5 w-5" aria-hidden="true" />
+      </button>
+    </div>
+
+    <!-- Cuerpo del modal -->
+    <div class="flex-1 overflow-y-auto p-5">
+      <!-- Estado inicial (0 seleccionados) -->
+      <div
+        id="comparador-vacio"
+        class="rounded-2xl border border-dashed border-slate-300 bg-neutral-surface px-6 py-12 text-center"
+      >
+        <span
+          class="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-primary-700"
+          aria-hidden="true"
+        >
+          <CompareIcon class="h-6 w-6" />
+        </span>
+        <h3 class="text-base font-bold text-primary-900">
+          Aún no has seleccionado espacios para comparar
+        </h3>
+        <p class="mx-auto mt-1.5 max-w-md text-sm text-neutral-muted">
+          Pulsa “Comparar” en hasta 3 tarjetas del catálogo o fichas de detalle
+          para contrastar tipo, sombra, asientos, agua, baños, rampas e
+          iluminación.
+        </p>
+        <a
+          href="/espacios/"
+          data-comparador-cerrar
+          class="mt-5 inline-flex items-center justify-center rounded-xl bg-primary-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+        >
+          Explorar espacios
+        </a>
+      </div>
+
+      <!-- Tabla comparativa (1 a 3 espacios) -->
+      <div id="comparador-tabla-wrap" class="hidden">
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <table class="w-full min-w-130 table-fixed border-collapse text-left text-sm">
+            <thead id="comparador-thead" class="bg-neutral-surface"></thead>
+            <tbody
+              id="comparador-tbody"
+              class="divide-y divide-slate-200"
+            ></tbody>
+          </table>
+        </div>
+
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <p class="text-xs text-neutral-muted">
+            Los valores sin confirmación en campo se muestran como “Sin
+            información”.
+          </p>
+          <button
+            type="button"
+            data-comparador-limpiar
+            class="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-primary-900 transition-colors hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+          >
+            Quitar todos los espacios
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
