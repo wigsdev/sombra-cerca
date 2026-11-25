@@ -1,5 +1,9 @@
 ---
 import { formatDisponibilidad, formatNivel } from "../../data/espacios.js";
+import CheckIcon from "../../assets/icons/check.svg";
+import MinusIcon from "../../assets/icons/minus.svg";
+import CloseIcon from "../../assets/icons/close.svg";
+import HelpIcon from "../../assets/icons/help.svg";
 
 interface Props {
   espacio: {
@@ -106,66 +110,10 @@ const indicadores: Indicador[] = [
             item.estado === "neutro" && "bg-slate-300 text-slate-800",
           ]}
         >
-          {item.estado === "positivo" && (
-            <svg
-              class="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m5 13 4 4L19 7"
-              />
-            </svg>
-          )}
-          {item.estado === "medio" && (
-            <svg
-              class="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M5 12h14"
-              />
-            </svg>
-          )}
-          {item.estado === "negativo" && (
-            <svg
-              class="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 6l12 12M18 6 6 18"
-              />
-            </svg>
-          )}
-          {item.estado === "neutro" && (
-            <svg
-              class="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9.5 9a2.5 2.5 0 1 1 3.7 2.2c-.8.4-1.2 1-1.2 1.8m0 3.5h.01"
-              />
-            </svg>
-          )}
+          {item.estado === "positivo" && <CheckIcon class="h-4 w-4" />}
+          {item.estado === "medio" && <MinusIcon class="h-4 w-4" />}
+          {item.estado === "negativo" && <CloseIcon class="h-4 w-4" />}
+          {item.estado === "neutro" && <HelpIcon class="h-4 w-4" />}
         </span>
 
         <div>

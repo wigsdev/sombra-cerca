@@ -1,5 +1,6 @@
 ---
 import { formatDisponibilidad, formatNivel } from "../../data/espacios.js";
+import PinIcon from "../../assets/icons/pin.svg";
 import HeartIcon from "../../assets/icons/heart.svg";
 import CompareIcon from "../../assets/icons/compare.svg";
 
@@ -62,21 +63,7 @@ const accesibilidadTexto = formatDisponibilidad(espacio.rampas, {
       {espacio.nombre}
     </Heading>
     <p class="mt-1 flex items-center gap-1.5 text-sm text-neutral-muted">
-      <svg
-        class="h-4 w-4 shrink-0 text-primary-500"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 21s-6-5.686-6-10a6 6 0 1 1 12 0c0 4.314-6 10-6 10Z"
-        />
-        <circle cx="12" cy="11" r="2.5" />
-      </svg>
+      <PinIcon class="h-4 w-4 shrink-0 text-primary-500" aria-hidden="true" />
       <span>{espacio.zona}</span>
     </p>
 

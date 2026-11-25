@@ -1,6 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import CardEspacio from "../../components/espacios/CardEspacio.astro";
+import SearchIcon from "../../assets/icons/search.svg";
+import FilterIcon from "../../assets/icons/filter.svg";
 import { getAllSpaces, getTiposDisponibles } from "../../data/espacios.js";
 
 const espacios = getAllSpaces();
@@ -32,17 +34,10 @@ const tipos = getTiposDisponibles();
         <label for="buscador-espacios" class="sr-only">
           Buscar espacio por nombre o zona
         </label>
-        <svg
+        <SearchIcon
           class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-muted"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
           aria-hidden="true"
-        >
-          <circle cx="11" cy="11" r="7" />
-          <path stroke-linecap="round" d="m20 20-3.5-3.5" />
-        </svg>
+        />
         <input
           id="buscador-espacios"
           type="search"
@@ -59,20 +54,7 @@ const tipos = getTiposDisponibles();
         aria-controls="panel-filtros"
         class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-primary-900 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 lg:hidden"
       >
-        <svg
-          class="h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3 6h18M6 12h12m-9 6h6"
-          />
-        </svg>
+        <FilterIcon class="h-4 w-4" aria-hidden="true" />
         Filtros
       </button>
     </div>
