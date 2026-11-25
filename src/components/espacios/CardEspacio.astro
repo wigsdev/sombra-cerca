@@ -1,5 +1,6 @@
 ---
 import { formatDisponibilidad, formatNivel } from "../../data/espacios.js";
+import HeartIcon from "../../assets/icons/heart.svg";
 
 interface Props {
   espacio: {
@@ -41,6 +42,18 @@ const accesibilidadTexto = formatDisponibilidad(espacio.rampas, {
     <span class="absolute left-3 top-3 rounded-full bg-primary-900/90 px-3 py-1 text-xs font-semibold capitalize text-white">
       {espacio.tipo}
     </span>
+    <button
+      type="button"
+      data-fav-btn
+      data-slug={espacio.slug}
+      data-nombre={espacio.nombre}
+      aria-pressed="false"
+      aria-label={`Guardar ${espacio.nombre} en favoritos`}
+      class="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1.5 text-xs font-semibold text-primary-900 shadow-sm transition-colors hover:bg-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+    >
+      <HeartIcon data-fav-icon class="h-4 w-4" aria-hidden="true" />
+      <span data-fav-label>Guardar</span>
+    </button>
   </div>
 
   <div class="flex flex-1 flex-col p-5">

@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import MatrizServicios from "../../components/espacios/MatrizServicios.astro";
 import CardEspacio from "../../components/espacios/CardEspacio.astro";
 import { getAllSpaces } from "../../data/espacios.js";
+import HeartIcon from "../../assets/icons/heart.svg";
 
 export function getStaticPaths() {
   const espacios = getAllSpaces();
@@ -80,6 +81,23 @@ const relacionados = getAllSpaces()
             </dd>
           </div>
         </dl>
+        <button
+          type="button"
+          data-fav-btn
+          data-fav-detail
+          data-slug={espacio.slug}
+          data-nombre={espacio.nombre}
+          aria-pressed="false"
+          aria-label={`Guardar ${espacio.nombre} en favoritos`}
+          class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-primary-900 transition-colors hover:bg-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+        >
+          <HeartIcon
+            data-fav-icon
+            class="h-5 w-5 text-accent-amber"
+            aria-hidden="true"
+          />
+          <span data-fav-label>Guardar en favoritos</span>
+        </button>
       </div>
     </div>
 
