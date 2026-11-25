@@ -1,10 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import {
-  getFeaturedSpaces,
-  formatNivel,
-  formatDisponibilidad,
-} from "../data/espacios.js";
+import CardEspacio from "../components/espacios/CardEspacio.astro";
+import { getFeaturedSpaces } from "../data/espacios.js";
 
 const destacados = getFeaturedSpaces(3);
 ---
@@ -102,47 +99,7 @@ const destacados = getFeaturedSpaces(3);
 
     <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {destacados.map((espacio) => (
-        <article class="flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-shadow hover:shadow-md">
-          <div class="relative aspect-video overflow-hidden bg-slate-100">
-            <img
-              src={espacio.imagen}
-              alt={espacio.imagenAlt}
-              loading="lazy"
-              class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-            />
-            <span class="absolute left-3 top-3 rounded-full bg-primary-900/90 px-3 py-1 text-xs font-semibold capitalize text-white">
-              {espacio.tipo}
-            </span>
-          </div>
-
-          <div class="flex flex-1 flex-col p-5">
-            <h3 class="text-lg font-bold text-primary-900">{espacio.nombre}</h3>
-            <p class="mt-1 text-sm text-neutral-muted">{espacio.zona}</p>
-
-            <div class="mt-4 flex flex-wrap gap-2">
-              <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-primary-700">
-                Sombra: {formatNivel(espacio.sombra)}
-              </span>
-              <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-neutral-text">
-                Asientos:{" "}
-                {formatDisponibilidad(espacio.asientos, { si: "Sí", no: "No" })}
-              </span>
-              <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-900">
-                Rampas:{" "}
-                {formatDisponibilidad(espacio.rampas, { si: "Sí", no: "No" })}
-              </span>
-            </div>
-
-            <div class="mt-5 pt-3 border-t border-slate-100">
-              <a
-                href={`/espacios/${espacio.slug}/`}
-                class="inline-flex w-full items-center justify-center rounded-xl bg-primary-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
-              >
-                Ver ficha completa
-              </a>
-            </div>
-          </div>
-        </article>
+        <CardEspacio espacio={espacio} headingLevel="h3" />
       ))}
     </div>
   </section>
