@@ -1,0 +1,116 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import MatrizServicios from "../../components/espacios/MatrizServicios.astro";
+import CardEspacio from "../../components/espacios/CardEspacio.astro";
+import { getAllSpaces } from "../../data/espacios.js";
+
+export function getStaticPaths() {
+  const espacios = getAllSpaces();
+  return espacios.map((espacio) => ({
+    params: { slug: espacio.slug },
+    props: { espacio },
+  }));
+}
+
+const { espacio } = Astro.props;
+const relacionados = getAllSpaces()
+  .filter((item) => item.slug !== espacio.slug)
+  .slice(0, 3);
+---
+
+<Layout
+  title={`${espacio.nombre} · Sombra Cerca`}
+  description={espacio.descripcion}
+>
+  <article class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+    <!-- Enlace de retorno -->
+    <nav aria-label="Ruta de navegación" class="mb-6">
+      <a
+        href="/espacios/"
+        class="inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-primary-700 hover:text-primary-900 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+      >
+        <span aria-hidden="true">←</span>
+        Volver al explorador
+      </a>
+    </nav>
+
+    <!-- Cabecera + Fotografía -->
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
+      <div class="overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-100 shadow-sm lg:col-span-7">
+        <img
+          src={espacio.imagen}
+          alt={espacio.imagenAlt}
+          class="aspect-video w-full object-cover"
+        />
+      </div>
+
+      <div class="space-y-5 lg:col-span-5">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="rounded-full bg-primary-900 px-3 py-1 text-xs font-semibold capitalize text-white">
+            {espacio.tipo}
+          </span>
+          <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-primary-900">
+            {espacio.zona}
+          </span>
+        </div>
+
+        <h1 class="text-3xl font-extrabold tracking-tight text-primary-900 sm:text-4xl">
+          {espacio.nombre}
+        </h1>
+
+        <p class="text-base leading-relaxed text-neutral-text">
+          {espacio.descripcion}
+        </p>
+
+        <dl class="space-y-3 rounded-2xl border border-slate-200/80 bg-white p-4 text-sm">
+          <div>
+            <dt class="text-xs font-bold uppercase tracking-wide text-neutral-muted">
+              Dirección o referencia
+            </dt>
+            <dd class="mt-0.5 font-medium text-primary-900">
+              {espacio.direccion}
+            </dd>
+          </div>
+          <div class="border-t border-slate-100 pt-3">
+            <dt class="text-xs font-bold uppercase tracking-wide text-neutral-muted">
+              Horario orientativo
+            </dt>
+            <dd class="mt-0.5 font-medium text-primary-900">
+              {espacio.horario ?? "Sin información"}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <!-- Matriz de 6 indicadores obligatorios -->
+    <MatrizServicios espacio={espacio} />
+
+    <!-- Navegación a otros espacios -->
+    <section
+      aria-labelledby="heading-relacionados"
+      class="mt-16 border-t border-slate-200/80 pt-10"
+    >
+      <div class="flex items-end justify-between gap-4">
+        <h2
+          id="heading-relacionados"
+          class="text-xl font-bold text-primary-900"
+        >
+          Otros espacios cercanos para explorar
+        </h2>
+        <a
+          href="/espacios/"
+          class="text-sm font-semibold text-primary-700 hover:text-primary-900 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 rounded"
+        >
+          Ver catálogo completo →
+        </a>
+      </div>
+
+      <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+        {relacionados.map((item) => (
+          <CardEspacio espacio={item} headingLevel="h3" />
+        ))}
+      </div>
+    </section>
+  </article>
+</Layout>
