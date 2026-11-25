@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/common/Header.astro";
 import Footer from "../components/common/Footer.astro";
+import ComparadorPanel from "../components/comparador/ComparadorPanel.astro";
 
 interface Props {
   title: string;
@@ -38,9 +39,12 @@ const {
     </main>
 
     <Footer />
+    <ComparadorPanel />
     <script>
       import { initFavoritosUI } from "../scripts/favoritos-ui.js";
+      import { initComparadorUI } from "../scripts/comparador-ui.js";
       initFavoritosUI();
+      initComparadorUI();
     </script>
   </body>
 </html>

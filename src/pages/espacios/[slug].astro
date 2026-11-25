@@ -4,6 +4,7 @@ import MatrizServicios from "../../components/espacios/MatrizServicios.astro";
 import CardEspacio from "../../components/espacios/CardEspacio.astro";
 import { getAllSpaces } from "../../data/espacios.js";
 import HeartIcon from "../../assets/icons/heart.svg";
+import CompareIcon from "../../assets/icons/compare.svg";
 
 export function getStaticPaths() {
   const espacios = getAllSpaces();
@@ -97,6 +98,18 @@ const relacionados = getAllSpaces()
             aria-hidden="true"
           />
           <span data-fav-label>Guardar en favoritos</span>
+        </button>
+        <button
+          type="button"
+          data-compare-btn
+          data-slug={espacio.slug}
+          data-nombre={espacio.nombre}
+          aria-pressed="false"
+          aria-label={`Agregar ${espacio.nombre} al comparador`}
+          class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-neutral-text transition-colors hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+        >
+          <CompareIcon class="h-5 w-5 text-primary-700" aria-hidden="true" />
+          <span data-compare-label>Comparar</span>
         </button>
       </div>
     </div>
