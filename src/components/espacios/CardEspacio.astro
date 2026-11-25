@@ -1,0 +1,106 @@
+---
+import { formatDisponibilidad, formatNivel } from "../../data/espacios.js";
+
+interface Props {
+  espacio: {
+    id: number;
+    slug: string;
+    nombre: string;
+    tipo: string;
+    zona: string;
+    imagen: string;
+    imagenAlt: string;
+    sombra: string;
+    asientos: boolean | null;
+    rampas: boolean | null;
+  };
+  headingLevel?: "h2" | "h3";
+}
+
+const { espacio, headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+
+const accesibilidadTexto = formatDisponibilidad(espacio.rampas, {
+  si: "Con rampas",
+  no: "Sin rampas",
+});
+---
+
+<article
+  data-espacio-card
+  data-slug={espacio.slug}
+  class="flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-shadow hover:shadow-md"
+>
+  <div class="relative aspect-video overflow-hidden bg-slate-100">
+    <img
+      src={espacio.imagen}
+      alt={espacio.imagenAlt}
+      loading="lazy"
+      class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+    />
+    <span class="absolute left-3 top-3 rounded-full bg-primary-900/90 px-3 py-1 text-xs font-semibold capitalize text-white">
+      {espacio.tipo}
+    </span>
+  </div>
+
+  <div class="flex flex-1 flex-col p-5">
+    <Heading class="text-lg font-bold leading-snug text-primary-900">
+      {espacio.nombre}
+    </Heading>
+    <p class="mt-1 flex items-center gap-1.5 text-sm text-neutral-muted">
+      <svg
+        class="h-4 w-4 shrink-0 text-primary-500"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 21s-6-5.686-6-10a6 6 0 1 1 12 0c0 4.314-6 10-6 10Z"
+        />
+        <circle cx="12" cy="11" r="2.5" />
+      </svg>
+      <span>{espacio.zona}</span>
+    </p>
+
+    <div class="mt-4 flex flex-wrap gap-2">
+      <span
+        class:list={[
+          "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold",
+          espacio.sombra === "alta" &&
+            "bg-emerald-100 text-primary-900 border-emerald-200",
+          espacio.sombra === "media" &&
+            "bg-amber-50 text-amber-900 border-amber-200",
+          espacio.sombra === "baja" &&
+            "bg-orange-100 text-accent-terracota border-orange-200",
+          !["alta", "media", "baja"].includes(espacio.sombra) &&
+            "bg-slate-100 text-neutral-text border-slate-200",
+        ]}
+      >
+        Sombra: {formatNivel(espacio.sombra)}
+      </span>
+
+      <span class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-neutral-text">
+        Asientos:{" "}
+        {formatDisponibilidad(espacio.asientos, { si: "Sí", no: "No" })}
+      </span>
+
+      <span class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-primary-900">
+        Accesibilidad: {accesibilidadTexto}
+      </span>
+    </div>
+
+    <div class="mt-auto pt-5">
+      <a
+        href={`/espacios/${espacio.slug}/`}
+        class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+      >
+        Ver ficha completa
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</article>
