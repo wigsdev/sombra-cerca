@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-900: #132e27;
+  --color-primary-700: #1f4e3d;
+  --color-primary-500: #387b62;
+  --color-accent-amber: #d97706;
+  --color-accent-terracota: #c2410c;
+  --color-neutral-surface: #f8faf8;
+  --color-neutral-card: #ffffff;
+  --color-neutral-text: #1e293b;
+  --color-neutral-muted: #64748b;
+}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-neutral-surface);
+    color: var(--color-neutral-text);
+  }
+  body {
+    overflow-x: hidden;
+  }
+}
