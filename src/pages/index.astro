@@ -1,16 +1,264 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import {
+  getFeaturedSpaces,
+  formatNivel,
+  formatDisponibilidad,
+} from "../data/espacios.js";
+
+const destacados = getFeaturedSpaces(3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="Sombra Cerca · Atlas de refugios urbanos y confort peatonal"
+  description="Descubre dónde caminar, descansar y protegerte del sol en Cajamarca mediante un catálogo filtrable de parques, plazas y alamedas."
+>
+  <!-- Hero / Propuesta de valor -->
+  <section class="relative overflow-hidden border-b border-emerald-900/10 bg-linear-to-br from-primary-900 via-primary-700 to-emerald-800 text-white">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:py-20 lg:grid-cols-12 lg:items-center">
+      <div class="space-y-6 lg:col-span-7">
+        <p class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3.5 py-1 text-xs font-semibold tracking-wide text-emerald-50">
+          Cajamarca · Espacios de sombra y descanso
+        </p>
+        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+          Descubre dónde caminar, descansar y protegerte del sol en la ciudad
+        </h1>
+        <p class="max-w-2xl text-base leading-relaxed text-emerald-50/90 sm:text-lg">
+          <strong>Sombra Cerca</strong> reúne información clara sobre sombra
+          arbórea, bancas, acceso con rampas, agua potable, baños e iluminación
+          para que elijas con confianza tu próxima pausa peatonal.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a
+            href="/espacios/"
+            class="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-sm font-bold text-primary-900 shadow-sm transition-colors hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
+          >
+            Explorar espacios
+            <svg
+              class="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 12h14m-6-6 6 6-6 6"
+              />
+            </svg>
+          </a>
+          <a
+            href="/favoritos/"
+            class="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-5 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"
+          >
+            Ver mis favoritos
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-2 shadow-xl backdrop-blur-sm">
+          <img
+            src="/images/espacios/alameda-de-los-incas.webp"
+            alt="Paseo peatonal arbolado en la Alameda de los Incas, Cajamarca"
+            class="aspect-4/3 w-full rounded-xl object-cover"
+          />
+          <p class="px-2 pt-2.5 text-xs text-emerald-100">
+            Alameda de los Incas · Complejo Qhapaq Ñan (sombra alta y paseo
+            peatonal continuo)
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Espacios destacados (mínimo 3 tarjetas) -->
+  <section
+    aria-labelledby="heading-destacados"
+    class="mx-auto max-w-6xl px-4 py-14 sm:px-6"
+  >
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-primary-500">
+          Selección destacada
+        </p>
+        <h2
+          id="heading-destacados"
+          class="mt-1 text-2xl font-bold text-primary-900 sm:text-3xl"
+        >
+          Refugios recomendados para hacer una pausa
+        </h2>
+      </div>
+      <a
+        href="/espacios/"
+        class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-700 hover:text-primary-900 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 rounded"
+      >
+        Ver los 12 espacios
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {destacados.map((espacio) => (
+        <article class="flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm transition-shadow hover:shadow-md">
+          <div class="relative aspect-video overflow-hidden bg-slate-100">
+            <img
+              src={espacio.imagen}
+              alt={espacio.imagenAlt}
+              loading="lazy"
+              class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+            <span class="absolute left-3 top-3 rounded-full bg-primary-900/90 px-3 py-1 text-xs font-semibold capitalize text-white">
+              {espacio.tipo}
+            </span>
+          </div>
+
+          <div class="flex flex-1 flex-col p-5">
+            <h3 class="text-lg font-bold text-primary-900">{espacio.nombre}</h3>
+            <p class="mt-1 text-sm text-neutral-muted">{espacio.zona}</p>
+
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-primary-700">
+                Sombra: {formatNivel(espacio.sombra)}
+              </span>
+              <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-neutral-text">
+                Asientos:{" "}
+                {formatDisponibilidad(espacio.asientos, { si: "Sí", no: "No" })}
+              </span>
+              <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-900">
+                Rampas:{" "}
+                {formatDisponibilidad(espacio.rampas, { si: "Sí", no: "No" })}
+              </span>
+            </div>
+
+            <div class="mt-5 pt-3 border-t border-slate-100">
+              <a
+                href={`/espacios/${espacio.slug}/`}
+                class="inline-flex w-full items-center justify-center rounded-xl bg-primary-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+              >
+                Ver ficha completa
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Bloque pedagógico de indicadores -->
+  <section
+    aria-labelledby="heading-indicadores"
+    class="border-t border-slate-200/80 bg-white"
+  >
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <div class="max-w-2xl">
+        <p class="text-xs font-bold uppercase tracking-wider text-primary-500">
+          Guía de lectura
+        </p>
+        <h2
+          id="heading-indicadores"
+          class="mt-1 text-2xl font-bold text-primary-900 sm:text-3xl"
+        >
+          ¿Qué significan nuestros indicadores?
+        </h2>
+        <p class="mt-2 text-sm text-neutral-muted sm:text-base">
+          Evaluamos tres pilares clave para ayudarte a elegir un lugar cómodo.
+          Cada ficha resume tres condiciones esenciales para elegir dónde
+          detenerte o caminar.
+        </p>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <article class="rounded-2xl border border-slate-200/80 bg-neutral-surface p-6">
+          <span
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-primary-700"
+            aria-hidden="true"
+          >
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 22v-7m0 0c-3.5 0-6-2.5-6-6a6 6 0 1 1 12 0c0 3.5-2.5 6-6 6Z"
+              />
+            </svg>
+          </span>
+          <h3 class="mt-4 text-lg font-bold text-primary-900">
+            Nivel de sombra
+          </h3>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-muted">
+            Indica cuánta protección solar ofrece el arbolado o la arquitectura
+            del lugar:
+            <strong>Alta</strong> (cobertura continua), <strong>Media</strong>{" "}
+            (zonas alternas) o <strong>Baja</strong> (exposición directa en
+            horas pico).
+          </p>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200/80 bg-neutral-surface p-6">
+          <span
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-800"
+            aria-hidden="true"
+          >
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 12h16M6 12v6m12-6v6M5 9h14"
+              />
+            </svg>
+          </span>
+          <h3 class="mt-4 text-lg font-bold text-primary-900">
+            Descanso y servicios
+          </h3>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-muted">
+            Señala si el espacio cuenta con <strong>bancas o asientos</strong>{" "}
+            para detenerse durante el recorrido, además de servicios
+            complementarios como agua potable, baños públicos e iluminación.
+          </p>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200/80 bg-neutral-surface p-6">
+          <span
+            class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-200 text-primary-900"
+            aria-hidden="true"
+          >
+            <svg
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="5" r="2" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v5l3 3m-7-2a4 4 0 1 0 5.5 3.7"
+              />
+            </svg>
+          </span>
+          <h3 class="mt-4 text-lg font-bold text-primary-900">Accesibilidad</h3>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-muted">
+            Informa la presencia de <strong>rampas o accesos nivelados</strong>{" "}
+            frente a espacios con escalinatas. Si un servicio no tiene dato
+            confirmado, figura como “Sin información”
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</Layout>
