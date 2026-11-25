@@ -1,0 +1,218 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import CardEspacio from "../../components/espacios/CardEspacio.astro";
+import { getAllSpaces, getTiposDisponibles } from "../../data/espacios.js";
+
+const espacios = getAllSpaces();
+const tipos = getTiposDisponibles();
+---
+
+<Layout
+  title="Explorar espacios · Sombra Cerca"
+  description="Filtra parques, plazas, alamedas y miradores de Cajamarca por sombra, asientos y accesibilidad."
+>
+  <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <!-- Cabecera -->
+    <div class="max-w-2xl">
+      <p class="text-xs font-bold uppercase tracking-wider text-primary-500">
+        Catálogo urbano · Cajamarca
+      </p>
+      <h1 class="mt-1 text-3xl font-extrabold tracking-tight text-primary-900 sm:text-4xl">
+        Explorar espacios
+      </h1>
+      <p class="mt-2 text-base text-neutral-muted">
+        Combina búsqueda por nombre o zona con filtros de tipo, sombra y
+        asientos para encontrar tu próxima pausa.
+      </p>
+    </div>
+
+    <!-- Buscador + botón de filtros móvil -->
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div class="relative flex-1">
+        <label for="buscador-espacios" class="sr-only">
+          Buscar espacio por nombre o zona
+        </label>
+        <svg
+          class="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-muted"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path stroke-linecap="round" d="m20 20-3.5-3.5" />
+        </svg>
+        <input
+          id="buscador-espacios"
+          type="search"
+          placeholder="Buscar por nombre o zona (ej. Centro Histórico, Alameda, Colmena)..."
+          autocomplete="off"
+          class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-11 pr-4 text-sm text-neutral-text placeholder:text-neutral-muted shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+        />
+      </div>
+
+      <button
+        type="button"
+        id="toggle-filtros-movil"
+        aria-expanded="false"
+        aria-controls="panel-filtros"
+        class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-primary-900 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 lg:hidden"
+      >
+        <svg
+          class="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3 6h18M6 12h12m-9 6h6"
+          />
+        </svg>
+        Filtros
+      </button>
+    </div>
+
+    <!-- Layout principal: panel de filtros + resultados -->
+    <div class="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <!-- Panel de filtros -->
+      <aside
+        id="panel-filtros"
+        aria-label="Filtros del catálogo"
+        class="hidden rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs lg:sticky lg:top-24 lg:col-span-3 lg:block lg:self-start"
+      >
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <h2 class="text-sm font-bold uppercase tracking-wide text-primary-900">
+            Filtrar por
+          </h2>
+          <button
+            type="button"
+            data-limpiar-filtros
+            data-limpiar-inline
+            class="hidden text-xs font-semibold text-primary-700 hover:text-primary-900 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 rounded"
+          >
+            Limpiar
+          </button>
+        </div>
+
+        <div class="mt-4 space-y-4">
+          <div>
+            <label
+              for="filtro-tipo"
+              class="block text-sm font-semibold text-primary-900"
+            >
+              Tipo de espacio
+            </label>
+            <select
+              id="filtro-tipo"
+              class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-neutral-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+            >
+              <option value="todos">Todos los tipos</option>
+              {tipos.map((tipo) => (
+                <option value={tipo} class="capitalize">
+                  {tipo.charAt(0).toUpperCase() + tipo.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label
+              for="filtro-sombra"
+              class="block text-sm font-semibold text-primary-900"
+            >
+              Nivel de sombra
+            </label>
+            <select
+              id="filtro-sombra"
+              class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-neutral-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+            >
+              <option value="todos">Cualquier nivel</option>
+              <option value="alta">Alta</option>
+              <option value="media">Media</option>
+              <option value="baja">Baja</option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              for="filtro-asientos"
+              class="block text-sm font-semibold text-primary-900"
+            >
+              Disponibilidad de asientos
+            </label>
+            <select
+              id="filtro-asientos"
+              class="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-neutral-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+            >
+              <option value="todos">Cualquiera</option>
+              <option value="si">Con asientos</option>
+              <option value="no">Sin asientos</option>
+            </select>
+          </div>
+
+          <button
+            type="button"
+            data-limpiar-filtros
+            class="mt-2 w-full rounded-xl border border-slate-300 bg-neutral-surface px-4 py-2.5 text-sm font-semibold text-primary-900 transition-colors hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700"
+          >
+            Limpiar todos los filtros
+          </button>
+        </div>
+      </aside>
+
+      <!-- Área de resultados -->
+      <div class="lg:col-span-9">
+        <div class="mb-4 flex items-center justify-between">
+          <p
+            id="contador-resultados"
+            aria-live="polite"
+            class="text-sm font-semibold text-neutral-muted"
+          >
+            Mostrando {espacios.length} de {espacios.length} espacios
+          </p>
+        </div>
+
+        <!-- Cuadrícula de tarjetas -->
+        <div
+          id="grid-espacios"
+          class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
+        >
+          {espacios.map((espacio) => (
+            <CardEspacio espacio={espacio} />
+          ))}
+        </div>
+
+        <!-- Estado vacío sin coincidencias -->
+        <div
+          id="estado-sin-resultados"
+          class="hidden rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center"
+        >
+          <p class="text-lg font-bold text-primary-900">
+            No encontramos espacios con esos filtros
+          </p>
+          <p class="mt-2 text-sm text-neutral-muted">
+            Prueba ajustando el nivel de sombra, cambiando el término de
+            búsqueda o restableciendo los filtros.
+          </p>
+          <button
+            type="button"
+            data-limpiar-filtros
+            class="mt-6 inline-flex items-center justify-center rounded-xl bg-primary-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+          >
+            Limpiar todos los filtros
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { initExploradorFiltros } from "../../scripts/filtros.js";
+  initExploradorFiltros();
+</script>
