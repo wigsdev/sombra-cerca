@@ -96,3 +96,22 @@ tests/                  # Pruebas unitarias Vitest (espacios, filtros, storage)
 3. **Cero frameworks cliente adicionales:** Toda la interactividad (filtros, favoritos y comparador) se resolvió con ESModules nativos, logrando un bundle mínimo y tiempos de carga rápidos.
 4. **Persistencia defensiva en `localStorage`:** `src/scripts/storage.js` encapsula lectura y escritura con `try/catch`, validación de tipo `Array` y respaldo en memoria ante navegadores con almacenamiento bloqueado.
 5. **Accesibilidad y rendimiento:** HTML semántico (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`), foco visible por teclado (`focus-visible`), indicadores con texto + ícono (sin depender solo del color) y las 12 fotografías servidas localmente en `.webp`.
+
+---
+
+## Capturas de pantalla
+
+### Portada
+![Portada de Sombra Cerca](docs/screenshots/01-inicio.jpg)
+
+### Explorador con búsqueda y filtros combinados
+![Explorador con filtros activos](docs/screenshots/02-explorador-filtros.jpg)
+
+### Ficha de detalle dinámica
+![Ficha de detalle de espacio urbano](docs/screenshots/03-detalle.jpg)
+
+### Lista de favoritos
+![Lista de espacios favoritos](docs/screenshots/04-favoritos.jpg)
+
+### Comparador de hasta 3 espacios
+![Comparador de espacios lado a lado](docs/screenshots/05-comparador.jpg)
