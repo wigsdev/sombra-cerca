@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Página no encontrada · Sombra Cerca"
+  description="El espacio o ruta que buscas no existe en el catálogo de Sombra Cerca."
+>
+  <section class="mx-auto flex max-w-2xl flex-col items-center px-4 py-20 text-center sm:px-6">
+    <span
+      class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-100 text-primary-700"
+      aria-hidden="true"
+    >
+      <svg
+        class="h-8 w-8"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
+        />
+      </svg>
+    </span>
+
+    <p class="text-sm font-bold uppercase tracking-wider text-primary-500">
+      Error 404
+    </p>
+    <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-primary-900 sm:text-4xl">
+      Parece que te saliste del sendero
+    </h1>
+    <p class="mt-4 text-base text-neutral-muted">
+      El espacio urbano o la dirección que intentas consultar no existe en
+      nuestro catálogo o ha cambiado de ruta.
+    </p>
+
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a
+        href="/espacios/"
+        class="inline-flex items-center justify-center rounded-xl bg-primary-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+      >
+        Volver al explorador
+      </a>
+      <a
+        href="/"
+        class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-primary-900 transition-colors hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-700 focus-visible:ring-offset-2"
+      >
+        Ir a la portada
+      </a>
+    </div>
+  </section>
+</Layout>
